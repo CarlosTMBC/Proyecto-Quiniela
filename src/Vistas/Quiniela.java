@@ -107,7 +107,7 @@ public class Quiniela extends javax.swing.JFrame {
         ModeloQuiniela modelo = new ModeloQuiniela();
         DefaultTableModel TablaModelo2 = modelo.DatosCategorias();
         Tabla.setModel(TablaModelo2);
-                JOptionPane.showMessageDialog(null, "culo Establecida");
+               
     }//GEN-LAST:event_btnRellenarActionPerformed
 
     /**

@@ -125,6 +125,11 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
 
         btnCancelar.setForeground(new java.awt.Color(0, 153, 153));
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnIngresar.setForeground(new java.awt.Color(0, 153, 153));
         btnIngresar.setText("Ingresar");
@@ -424,6 +429,10 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
         // TODO add your handling code here:
         txtPass.setText("");
     }//GEN-LAST:event_txtPassMouseClicked
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
                                                 
 
