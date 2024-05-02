@@ -35,4 +35,28 @@ public class ModeloParticipantes {
           JOptionPane.showMessageDialog(null, "No se pudo Guardar..."+ex.getMessage());
         }  
 }
+    
+    public int  numeroRegistros(){
+        int numeroRegistros = 0;
+        try {
+            
+            Conexion nuevaConexion = new Conexion();
+            MyConexion = nuevaConexion.conectar();
+            Statement sentencia = MyConexion.createStatement();
+            String consulta = "SELECT COUNT(*) AS NumeroDeRegistros FROM participantes;";
+            result = sentencia.executeQuery(consulta);
+                
+                
+                if (result.next()) {
+                    numeroRegistros = result.getInt("NumeroDeRegistros");
+                }
+                System.out.println("El número de registros en la tabla es: " + numeroRegistros);
+                
+            }
+             catch (SQLException e) {
+                 System.out.println("algo salio mal");
+        }
+        return numeroRegistros;
+    }
 }
+

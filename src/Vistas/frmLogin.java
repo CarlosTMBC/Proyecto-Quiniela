@@ -4,7 +4,9 @@
  */
 package Vistas;
 
+import Modelos.GestorPass;
 import Modelos.ModelosParticipantesL;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -249,21 +251,36 @@ public class frmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresar1ActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-      if("sa".equals(txtUser.getText()))
+     
+        GestorPass gestor = new GestorPass();
+        String mensaje = gestor.validarCredenciales(txtUser.getText(), txtPass.getText());
+        if("admin".equals(txtUser.getText()))
       {
-          
-          Participantes part = new Participantes();
-          ModelosParticipantesL modelo = new ModelosParticipantesL();
-          DefaultTableModel TablaModelo2 = modelo.ListarParticipantes();
-          part.Tabla.setModel(TablaModelo2);
-          part.setVisible(true);
-          part.setLocationRelativeTo(null);
+          if("9820".equals(txtPass.getText()))
+          {
+            frmVistaPrincipalAdmin VistaAdmin = new frmVistaPrincipalAdmin();
+          VistaAdmin.setVisible(true);
+          VistaAdmin.setLocationRelativeTo(null);
+          VistaAdmin.setExtendedState(MAXIMIZED_BOTH);  
+          }
+          else{
+              JOptionPane.showMessageDialog(null, "Credenciales incorrectos");
+          }
       }
-      else{
-          /*Quiniela quin = new Quiniela();
+      else
+      {
+          if(mensaje.equals("Conexion exitosa"))
+          {
+             Quiniela quin = new Quiniela();
           quin.setVisible(true);
-          quin.setLocationRelativeTo(null);*/
+          quin.setLocationRelativeTo(null); 
+          }
+            
+          else{
+          JOptionPane.showMessageDialog(null, "Credenciales incorrectos");
       }
+      }
+      
       
     }//GEN-LAST:event_btnIngresarActionPerformed
 

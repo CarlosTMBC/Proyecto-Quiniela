@@ -17,15 +17,15 @@ import javax.swing.JOptionPane;
  */
 public class Conexion {
     private static Connection conn = null;
-    private static final String URL = "jdbc:mysql://localhost:3306/quinielaDB";
-    private static final String USUARIO = "root";
-    private static final String CONTRASEÑA = "9820";
+     String URL = "jdbc:mysql://localhost:3306/quinielaDB";
+     String user = "root";
+     String pass = "9820";
 
     public Connection conectar() throws SQLException {
         if (conn == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
+                conn = DriverManager.getConnection(URL, user, pass);
                 JOptionPane.showMessageDialog(null, "Conexion Establecida");
             } catch (ClassNotFoundException ex) {
                 System.out.println("Error: No se encontró el driver JDBC");

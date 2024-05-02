@@ -349,8 +349,8 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         ModeloParticipantes mParticipantes = new ModeloParticipantes();
-        mParticipantes.Guardar(1, txtNombre.getText(), txtApellidos.getText(), txtUsuario.getText(), txtPass.getText(), txtTelefono.getText(), txtDPI.getText());
-       // public void Guardar(int id, String nombre, String apellidos, String usuario, String pass, String telefono, String dpi)
+        mParticipantes.Guardar(mParticipantes.numeroRegistros()+1, txtNombre.getText(), txtApellidos.getText(), txtUsuario.getText(), txtPass.getText(), txtTelefono.getText(), txtDPI.getText());
+       
     }//GEN-LAST:event_btnIngresarActionPerformed
 //        vQuiniela quin = new vQuiniela();//SE CREA EL OBJETO vQUINIELA y se ASIGNA A LA VARIABLE quin
 //         nombre =this.txtNombre.getText(); //se obtiene el nombre del paticipante del txtnombre y se guarda en la variable nombre

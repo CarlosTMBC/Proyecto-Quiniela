@@ -26,14 +26,13 @@ public class ModelosParticipantesL {
         TablaModelo.addColumn("Codigo");
         TablaModelo.addColumn("Nombre");
         TablaModelo.addColumn("Apellidos");
-        TablaModelo.addColumn("Usuario");
 
         try
         {
             Conexion nuevaConexion = new Conexion();
             MyConexion = nuevaConexion.conectar();
             Statement sentencia = MyConexion.createStatement();
-            result = sentencia.executeQuery("SELECT p.idParticipante, p.nombre, p.apellido, c.usuario " +"FROM credenciales c " + "INNER JOIN participantes p ON c.idUser = p.idParticipante");
+            result = sentencia.executeQuery("SELECT p.idParticipante, p.nombre, p.apellido " +"FROM credenciales c " + "INNER JOIN participantes p ON c.idUser = p.idParticipante");
 
 
                 while(result.next())
@@ -41,8 +40,7 @@ public class ModelosParticipantesL {
                     TablaModelo.addRow(new Object[]{
                         result.getString("idParticipante"),
                         result.getString("nombre"),
-                        result.getString("apellido"),
-                        result.getString("Usuario")
+                        result.getString("apellido")
                     });
                 }
             return TablaModelo;

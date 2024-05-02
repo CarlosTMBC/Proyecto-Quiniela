@@ -66,6 +66,16 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Gesti&#xf3;n de Usuarios"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="itemVerUsuarios">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="VerUsuarios"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemVerUsuariosActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>

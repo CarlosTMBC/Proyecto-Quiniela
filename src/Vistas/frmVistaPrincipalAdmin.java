@@ -1,8 +1,11 @@
 
 package Vistas;
 
+import Modelos.ModelosParticipantesL;
 import java.awt.Dimension;
+import java.awt.Frame;
 import javax.swing.JInternalFrame;
+import javax.swing.table.DefaultTableModel;
 
 public class frmVistaPrincipalAdmin extends javax.swing.JFrame {
 
@@ -31,6 +34,7 @@ public class frmVistaPrincipalAdmin extends javax.swing.JFrame {
         submnIngresoResultado = new javax.swing.JMenuItem();
         submnVerJornada = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        itemVerUsuarios = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
 
         jCheckBoxMenuItem1.setSelected(true);
@@ -95,6 +99,15 @@ public class frmVistaPrincipalAdmin extends javax.swing.JFrame {
         jMenuBar1.add(mbarGestionPartidos);
 
         jMenu2.setText("Gestión de Usuarios");
+
+        itemVerUsuarios.setText("VerUsuarios");
+        itemVerUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemVerUsuariosActionPerformed(evt);
+            }
+        });
+        jMenu2.add(itemVerUsuarios);
+
         jMenuBar1.add(jMenu2);
 
         jMenu1.setText("Ayuda");
@@ -209,12 +222,23 @@ public class frmVistaPrincipalAdmin extends javax.swing.JFrame {
        VentanaPrin.add(VistaResultadosAdmin);    
     }//GEN-LAST:event_submnIngresoResultadoActionPerformed
 
-        void CentrarVentana(JInternalFrame frame){
-        VentanaPrin.add(frame);// Esta línea agrega la ventana interna (frame) al contenedor principal (VentanaPrin)
-        Dimension dimension = VentanaPrin.getSize();// Esta línea obtiene las dimensiones del contenedor principal (VentanaPrin) y las almacena en un objeto de tipo Dimension llamado dimension.
-        Dimension frameVentana = frame.getSize();//Esta línea tiene la intención de calcular las coordenadas de ubicación para centrar la ventana interna en el contenedor.
-        frame.setLocation((dimension.width -frameVentana.height)/100, (dimension.height -frameVentana.width)/100);
-        frame.show();//Esta línea muestra la ventana interna (frame) dentro del contenedor principal (VentanaPrin).
+    private void itemVerUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemVerUsuariosActionPerformed
+          Participantes part = new Participantes();
+          ModelosParticipantesL modelo = new ModelosParticipantesL();
+          DefaultTableModel TablaModelo2 = modelo.ListarParticipantes();
+          part.Tabla.setModel(TablaModelo2);
+          part.setVisible(true);
+          part.setLocationRelativeTo(null);
+    }//GEN-LAST:event_itemVerUsuariosActionPerformed
+
+    void CentrarVentana(Frame frame){
+        VentanaPrin.add(frame);
+        Dimension dimension = VentanaPrin.getSize();
+        Dimension frameVentana = frame.getSize();
+        int x = (dimension.width - frameVentana.width) / 2;
+        int y = (dimension.height - frameVentana.height) / 2;
+        frame.setLocation(x, y);
+        frame.setVisible(true);
     }
     
     
@@ -257,6 +281,7 @@ public class frmVistaPrincipalAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane VentanaPrin;
+    private javax.swing.JMenuItem itemVerUsuarios;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JMenu jMenu1;
