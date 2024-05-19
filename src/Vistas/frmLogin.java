@@ -5,7 +5,7 @@
 package Vistas;
 
 import Modelos.GestorPass;
-import Modelos.ModelosParticipantesL;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -21,7 +21,7 @@ public class frmLogin extends javax.swing.JFrame {
     public frmLogin() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -252,36 +252,6 @@ public class frmLogin extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
      
-        GestorPass gestor = new GestorPass();
-        String mensaje = gestor.validarCredenciales(txtUser.getText(), txtPass.getText());
-        if("admin".equals(txtUser.getText()))
-      {
-          if("9820".equals(txtPass.getText()))
-          {
-            frmVistaPrincipalAdmin VistaAdmin = new frmVistaPrincipalAdmin();
-          VistaAdmin.setVisible(true);
-          VistaAdmin.setLocationRelativeTo(null);
-          VistaAdmin.setExtendedState(MAXIMIZED_BOTH);  
-          }
-          else{
-              JOptionPane.showMessageDialog(null, "Credenciales incorrectos");
-          }
-      }
-      else
-      {
-          if(mensaje.equals("Conexion exitosa"))
-          {
-             Quiniela quin = new Quiniela();
-          quin.setVisible(true);
-          quin.setLocationRelativeTo(null); 
-          }
-            
-          else{
-          JOptionPane.showMessageDialog(null, "Credenciales incorrectos");
-      }
-      }
-      
-      
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void txtUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUserMouseClicked
@@ -295,9 +265,7 @@ public class frmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPassMouseClicked
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
-        RegistrarParticipantes part = new RegistrarParticipantes();
-        part.setVisible(true);
-        part.setLocationRelativeTo(null);
+        
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
@@ -356,8 +324,8 @@ public class frmLogin extends javax.swing.JFrame {
     private javax.swing.JLabel lblContraseña1;
     private javax.swing.JLabel lblUsuario1;
     private javax.swing.JPasswordField txtContraseña1;
-    private javax.swing.JPasswordField txtPass;
-    private javax.swing.JTextField txtUser;
+    public javax.swing.JPasswordField txtPass;
+    public javax.swing.JTextField txtUser;
     private javax.swing.JTextField txtUsuario1;
     // End of variables declaration//GEN-END:variables
 }

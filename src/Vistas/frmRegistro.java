@@ -7,6 +7,7 @@ package Vistas;
 import Modelos.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +19,7 @@ import javax.swing.JFrame;
  *
  * @author carlt
  */
-public class RegistrarParticipantes extends javax.swing.JFrame {
+public class frmRegistro extends javax.swing.JFrame {
 String nombre;//ACA SE ALMACENA NOMBRE DEL PARTICIPANTE
 String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
     /**
@@ -26,7 +27,7 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
      */
                                              
 
-    public RegistrarParticipantes() {
+    public frmRegistro() {
         initComponents();
         Icon iconoActivado = new ImageIcon("C:\\Users\\carlt\\Downloads\\Quiniela\\Quiniela\\src\\Imagenes\\ojo.png");
         Icon iconoDesactivado = new ImageIcon("C:\\Users\\carlt\\Downloads\\Quiniela\\Quiniela\\src\\Imagenes\\invisible.png");
@@ -45,8 +46,8 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
     
     
         });
-    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+    
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -354,7 +355,11 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         ModeloParticipantes mParticipantes = new ModeloParticipantes();
+    try {
         mParticipantes.Guardar(mParticipantes.numeroRegistros()+1, txtNombre.getText(), txtApellidos.getText(), txtUsuario.getText(), txtPass.getText(), txtTelefono.getText(), txtDPI.getText());
+    } catch (IOException ex) {
+        Logger.getLogger(frmRegistro.class.getName()).log(Level.SEVERE, null, ex);
+    }
        
     }//GEN-LAST:event_btnIngresarActionPerformed
 //        vQuiniela quin = new vQuiniela();//SE CREA EL OBJETO vQUINIELA y se ASIGNA A LA VARIABLE quin
@@ -372,11 +377,11 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
     }//GEN-LAST:event_txtApellidosMouseClicked
 
     private void btnNacionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNacionalActionPerformed
-        vQuiniela quin = new vQuiniela();// Esta línea crea un nuevo objeto de la clase,vQuiniela y lo asigna a la variable quin para trabajar con ella 
-        quin.setVisible(true);//Esta línea establece que la ventana (quin, que es una instancia de vQuiniela) debe ser visible.
-        quin.setLocationRelativeTo(null);//Esta línea coloca la ventana quin en el centro de la pantalla.
-        quin.lblNombre.setText(nombre+" "+ apellido);//Esta línea establece el texto de la etiqueta quin.lblNombre concatenando nombre y apellido con un espacio entre ellos. 
-        
+//        vQuiniela quin = new vQuiniela();// Esta línea crea un nuevo objeto de la clase,vQuiniela y lo asigna a la variable quin para trabajar con ella 
+//        quin.setVisible(true);//Esta línea establece que la ventana (quin, que es una instancia de vQuiniela) debe ser visible.
+//        quin.setLocationRelativeTo(null);//Esta línea coloca la ventana quin en el centro de la pantalla.
+//        quin.lblNombre.setText(nombre+" "+ apellido);//Esta línea establece el texto de la etiqueta quin.lblNombre concatenando nombre y apellido con un espacio entre ellos. 
+//        
         
 // TODO add your handling code here:
     }//GEN-LAST:event_btnNacionalActionPerformed
@@ -437,10 +442,10 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
                                                 
 
     private void btnEspañolaActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        vLigaEspa quin = new vLigaEspa();// Esta línea crea un nuevo objeto de la clase,vLigaEspa y lo asigna a la variable quin para trabajar con ella 
-        quin.setVisible(true);//Esta línea establece que la ventana (quin, que es una instancia de vQuiniela) debe ser visible.
-        quin.setLocationRelativeTo(null);//Esta línea coloca la ventana quin en el centro de la pantalla.
-        quin.lblNombre.setText(nombre+" "+ apellido);//Esta línea establece el texto de la etiqueta quin.lblNombre concatenando nombre y apellido con un espacio entre ellos. 
+//        vLigaEspa quin = new vLigaEspa();// Esta línea crea un nuevo objeto de la clase,vLigaEspa y lo asigna a la variable quin para trabajar con ella 
+//        quin.setVisible(true);//Esta línea establece que la ventana (quin, que es una instancia de vQuiniela) debe ser visible.
+//        quin.setLocationRelativeTo(null);//Esta línea coloca la ventana quin en el centro de la pantalla.
+//        quin.lblNombre.setText(nombre+" "+ apellido);//Esta línea establece el texto de la etiqueta quin.lblNombre concatenando nombre y apellido con un espacio entre ellos. 
     }                                              
 
        
@@ -464,21 +469,23 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegistrarParticipantes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegistrarParticipantes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegistrarParticipantes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegistrarParticipantes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmRegistro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RegistrarParticipantes().setVisible(true);
+                new frmRegistro().setVisible(true);
             }
         });
     }

@@ -1,28 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package Main;
 
+import Controlador.Controlador;
+import Modelos.*;
 import Vistas.*;
 
-/**
- *
- * @author carlt
- */
+/*@author carlos */
 public class main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        frmLogin menu = new frmLogin();
-        menu.setVisible(true);
-        menu.setLocationRelativeTo(null);
         
-       // Menu.cambiarColores(menu.panel);
-        //Menu.cColor(menu.jButton1);
-        //Menu.cColor(menu.jButton2);
+        //Vistas de Programa
+        frmLogin VistaPrincipal = new frmLogin();
+        frmCuentas VistaCuentas = new frmCuentas();
+        frmRegistro VistaRegistrar = new frmRegistro();
+        frmAdministrador VistaAdministrador = new frmAdministrador();
+        frmCrearJornadas VistaCrearJornadas = new frmCrearJornadas();
+        frmResultados VistaResultados = new frmResultados();
+        frmJornadas VistaJornadas = new frmJornadas();
+        frmUsuario VistaUsuario = new frmUsuario();
+        frmQuiniela VistaQuiniela = new frmQuiniela();
+        frmResultadosQuiniela VistaResultadosQuiniela = new frmResultadosQuiniela();
+        frmBoletin VistaBoletin = new frmBoletin();
+        ModeloResultadosA modeloResultados = new ModeloResultadosA();
+        
+        
+
+        //Modelos de Programa
+        ModeloParticipantes modeloParticipantes = new ModeloParticipantes();
+        ModeloEquipos modeloEquipos = new ModeloEquipos(); 
+        ModeloQuiniela modeloQuiniela = new ModeloQuiniela();
+        ModeloJornada modeloJornada = new ModeloJornada();
+        GestorPass GestorCuentas = new GestorPass();
+        Controlador controlador = new Controlador(VistaPrincipal,VistaCuentas,
+        VistaRegistrar, VistaAdministrador, VistaCrearJornadas, VistaResultados,
+        VistaJornadas,  VistaQuiniela, VistaUsuario, VistaResultadosQuiniela,VistaBoletin, modeloParticipantes, modeloEquipos, 
+        modeloQuiniela, modeloJornada,modeloResultados,GestorCuentas);
     }
     
 }

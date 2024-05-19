@@ -4,6 +4,7 @@
  */
 package Modelos;
 
+import java.io.IOException;
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 public class ModeloParticipantes {
     Connection MyConexion;
     ResultSet result;
-    public void Guardar(int id, String nombre, String apellidos, String usuario, String pass, String telefono, String dpi)
+    public void Guardar(int id, String nombre, String apellidos, String usuario, String pass, String telefono, String dpi) throws IOException
 {
     try
         {
@@ -36,7 +37,7 @@ public class ModeloParticipantes {
         }  
 }
     
-    public int  numeroRegistros(){
+    public int  numeroRegistros() throws IOException{
         int numeroRegistros = 0;
         try {
             
@@ -58,5 +59,40 @@ public class ModeloParticipantes {
         }
         return numeroRegistros;
     }
+        public DefaultTableModel ListarParticipantes() throws IOException
+        {
+        DefaultTableModel TablaModelo = new DefaultTableModel();
+        TablaModelo.setRowCount(0);
+        TablaModelo.setColumnCount(0);
+        TablaModelo.addColumn("Codigo");
+        TablaModelo.addColumn("Nombre");
+        TablaModelo.addColumn("Apellidos");
+
+        try
+        {
+            Conexion nuevaConexion = new Conexion();
+            MyConexion = nuevaConexion.conectar();
+            Statement sentencia = MyConexion.createStatement();
+            result = sentencia.executeQuery("SELECT p.idParticipante, p.nombre, p.apellido " +"FROM credenciales c " + "INNER JOIN participantes p ON c.idUser = p.idParticipante");
+
+
+                while(result.next())
+                {
+                    TablaModelo.addRow(new Object[]{
+                        result.getString("idParticipante"),
+                        result.getString("nombre"),
+                        result.getString("apellido")
+                    });
+                }
+            return TablaModelo;
+        }
+    
+    catch(SQLException e)
+    {
+        JOptionPane.showMessageDialog(null, "No se Pudo Listar ...."+e.getMessage());
+    }
+    return TablaModelo;
+}
+        
 }
 
