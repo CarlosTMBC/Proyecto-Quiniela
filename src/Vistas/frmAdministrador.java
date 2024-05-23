@@ -4,6 +4,8 @@ package Vistas;
 import Modelos.*;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.util.Vector;
 import javax.swing.*;
 import javax.swing.JInternalFrame;
@@ -11,15 +13,19 @@ import javax.swing.JTable;
 import javax.swing.table.*;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class frmAdministrador extends javax.swing.JFrame {
  private static frmAdministrador adminVentana;
     /**
      * Creates new form frmVistaPrincipal
      */
+ 
+    FondoPanel fondo = new FondoPanel();
     public frmAdministrador() {
         
-        
+        this.setContentPane(fondo);
         initComponents();setLocationRelativeTo(null);  
        
     }
@@ -37,7 +43,6 @@ public class frmAdministrador extends javax.swing.JFrame {
 
         jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
-        VentanaPrin = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         mbarGestionPartidos = new javax.swing.JMenu();
         iCrearJornadas = new javax.swing.JMenuItem();
@@ -55,18 +60,7 @@ public class frmAdministrador extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        VentanaPrin.setForeground(new java.awt.Color(153, 153, 153));
-
-        javax.swing.GroupLayout VentanaPrinLayout = new javax.swing.GroupLayout(VentanaPrin);
-        VentanaPrin.setLayout(VentanaPrinLayout);
-        VentanaPrinLayout.setHorizontalGroup(
-            VentanaPrinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 888, Short.MAX_VALUE)
-        );
-        VentanaPrinLayout.setVerticalGroup(
-            VentanaPrinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 495, Short.MAX_VALUE)
-        );
+        jMenuBar1.setBackground(new java.awt.Color(211, 229, 255));
 
         mbarGestionPartidos.setText("Gestión de Partidos");
 
@@ -117,11 +111,11 @@ public class frmAdministrador extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(VentanaPrin, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGap(0, 888, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(VentanaPrin, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGap(0, 495, Short.MAX_VALUE)
         );
 
         pack();
@@ -184,7 +178,6 @@ public class frmAdministrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static javax.swing.JDesktopPane VentanaPrin;
     public javax.swing.JMenuItem iBoletin;
     public javax.swing.JMenuItem iCrearJornadas;
     public javax.swing.JMenuItem iIngresoResultados;
@@ -196,4 +189,20 @@ public class frmAdministrador extends javax.swing.JFrame {
     public javax.swing.JMenu lol;
     private javax.swing.JMenu mbarGestionPartidos;
     // End of variables declaration//GEN-END:variables
+
+    class FondoPanel extends JPanel{
+        
+        private Image imagen;
+        
+        @Override
+        public void paint(Graphics g)
+        {
+            imagen = new ImageIcon(getClass().getResource("/Imagenes/quiniela1.jpg")).getImage();
+            
+            g.drawImage(imagen, 0, 0, getWidth(),getHeight(),this);
+            
+            setOpaque(false);
+            super.paint(g);  
+        }
+    }
 }

@@ -54,6 +54,8 @@ public class frmCuentas extends javax.swing.JFrame {
             }
         ));
         Tabla.setGridColor(new java.awt.Color(0, 153, 153));
+        Tabla.setSelectionBackground(new java.awt.Color(0, 153, 153));
+        Tabla.setSelectionForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(Tabla);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
