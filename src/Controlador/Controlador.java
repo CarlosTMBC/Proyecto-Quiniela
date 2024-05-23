@@ -6,31 +6,27 @@ package Controlador;
 
 import Modelos.*;
 import Vistas.*;
-import static java.awt.Frame.MAXIMIZED_BOTH;
+import com.toedter.calendar.JDateChooser;
+import java.awt.*;
+import static java.awt.Frame.*;
 import java.awt.event.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.beans.*;
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
+import java.util.logging.*;
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+import javax.swing.event.*;
 import javax.swing.table.*;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 /**
  *
  * @author carlt
  */
-public class Controlador implements ActionListener, MouseListener,PropertyChangeListener  {
+public class Controlador extends DocumentFilter implements ActionListener, MouseListener,PropertyChangeListener,DocumentListener,WindowListener  {
 
     //Vistas de Programa
     frmLogin VistaPrincipal;
@@ -48,12 +44,14 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
     
     int indice =0;
     int Equipos ;
+    String user=null;
     //Modelos de Programa
     ModeloParticipantes modeloParticipantes;
     ModeloEquipos modeloEquipos;
     ModeloQuiniela modeloQuiniela;
     ModeloJornada modeloJornada;
     ModeloResultadosA modeloResultados;
+    ModeloBoletin modeloBoletin;
     GestorPass GestorDeCuentas;
 
     public Controlador(frmLogin VistaPrincipal, frmCuentas VistaCuentas, 
@@ -63,7 +61,7 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
         frmResultadosQuiniela VistaResultadosQuiniela,frmBoletin VistaBoletin,
         ModeloParticipantes modeloParticipantes, ModeloEquipos modeloEquipos,
         ModeloQuiniela modeloQuiniela, 
-        ModeloJornada modeloJornada, ModeloResultadosA modeloResultados,GestorPass GestorDeCuentas) {
+        ModeloJornada modeloJornada, ModeloResultadosA modeloResultados,ModeloBoletin modeloBoletin,GestorPass GestorDeCuentas) {
         
         this.VistaPrincipal = VistaPrincipal;
         this.VistaCuentas = VistaCuentas;
@@ -82,6 +80,7 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
         this.VistaBoletin = VistaBoletin;
         this.GestorDeCuentas = GestorDeCuentas;
         this.VistaResultadosQuiniela = VistaResultadosQuiniela;
+        this.modeloBoletin = modeloBoletin;
         this.VistaPrincipal.btnCrearCuenta.addActionListener(this);
         this.VistaPrincipal.btnIngresar.addActionListener(this);
         
@@ -93,15 +92,41 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
         this.VistaCrearJornadas.jdcFecha.addPropertyChangeListener(this);
         this.VistaAdministrador.iBoletin.addActionListener(this);
         this.VistaUsuario.iQuiniela.addActionListener(this);
-                        this.VistaUsuario.iResultadosQuiniela.addActionListener(this);
-                        
-                        this.VistaAdministrador.iCrearJornadas.addActionListener(this);
-                            this.VistaAdministrador.iIngresoResultados.addActionListener(this);
-                            this.VistaAdministrador.iVerJornadas.addActionListener(this);
-                            this.VistaAdministrador.iVerUsuarios.addActionListener(this);
-    this.VistaCrearJornadas.jdcFecha.addPropertyChangeListener("date", this);
+        this.VistaUsuario.iResultadosQuiniela.addActionListener(this);
+
+        this.VistaAdministrador.iCrearJornadas.addActionListener(this);
+        this.VistaAdministrador.iIngresoResultados.addActionListener(this);
+        this.VistaAdministrador.iVerJornadas.addActionListener(this);
+        this.VistaAdministrador.iVerUsuarios.addActionListener(this);
+        this.VistaQuiniela.btnGuardarResultados.addActionListener(this);
+        this.VistaQuiniela.cmbJornada.addActionListener(this);
+        this.VistaQuiniela.cmbLiga.addActionListener(this);
+        this.VistaCrearJornadas.jdcFecha.addPropertyChangeListener("date", this);
         this.modeloJornada.ListarJorndada(this.VistaCrearJornadas.cmbJornada);
         
+        this.VistaRegistrar.txtApellidos.getDocument().addDocumentListener(this);
+        this.VistaRegistrar.txtNombre.getDocument().addDocumentListener(this);
+        this.VistaRegistrar.txtTelefono.getDocument().addDocumentListener(this);
+        
+        
+        String dpiPattern = "\\d{0,4}-?\\d{0,5}-?\\d{0,4}";
+        Controlador dpiFilter = new Controlador(dpiPattern, 13, "El formato de DPI no debe exceder 13 caracteres");
+        ((AbstractDocument) this.VistaRegistrar.txtDPI.getDocument()).setDocumentFilter(dpiFilter);
+        
+        String phonePattern = "\\d{0,8}";
+        Controlador phoneFilter = new Controlador(phonePattern, 8, "Nuestro formato telefónico no debe exceder de 8 caracteres");
+        ((AbstractDocument) this.VistaRegistrar.txtTelefono.getDocument()).setDocumentFilter(phoneFilter);
+        
+        this.pattern = null;
+        this.maxLength = 0;
+        this.errorMessage = null;
+        
+    }
+
+    private Controlador() {
+        this.pattern = null;
+        this.maxLength = 0;
+        this.errorMessage = null;
     }
     
     
@@ -117,6 +142,7 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
         }
         if(e.getSource() == this.VistaPrincipal.btnIngresar)
         {
+            user = this.VistaPrincipal.txtUser.getText();
             if(this.VistaPrincipal.txtUser.getText().isEmpty()||this.VistaPrincipal.txtPass.getText().isEmpty()){
                 JOptionPane.showMessageDialog(null, "Los Campos estan Vacios");
             }
@@ -124,7 +150,7 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
             {
                 String validacion = null;
                 try {
-                    validacion = this.GestorDeCuentas.validarCredenciales(this.VistaPrincipal.txtUser.getText(), this.VistaPrincipal.txtPass.getText());
+                    validacion = this.GestorDeCuentas.validarCredenciales(user, this.VistaPrincipal.txtPass.getText());
                     System.out.println(validacion);
                 } catch (IOException ex) {
                     Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -166,9 +192,19 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
         }
         }
         
+        if(e.getSource() == this.VistaPrincipal.btnCrearCuenta)
+        {
+            
+        }
+        if(e.getSource() == this.VistaRegistrar.btnCancelar)
+        {
+            
+        }
+        
         if(e.getSource() == this.VistaUsuario.iQuiniela)
         {
             this.VistaQuiniela.setVisible(true);
+            this.VistaQuiniela.lblUsuario.setText(user);
             this.VistaQuiniela.setLocationRelativeTo(null);
             DefaultTableModel TablaQuiniela = null;
                 try {
@@ -189,6 +225,21 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
         });
 
         }
+        
+        if(e.getSource() == this.VistaQuiniela.btnGuardarResultados)
+        {
+            JTable Tabla = this.VistaQuiniela.Tabla;
+            JComboBox cmbLigas = this.VistaQuiniela.cmbLiga;
+            JComboBox cmbJornada = this.VistaQuiniela.cmbJornada;
+            JDateChooser fecha= this.VistaQuiniela.jdcFecha;
+            JLabel usuario = this.VistaQuiniela.lblUsuario;
+            try {
+                this.modeloQuiniela.ObtenerResultadoPartido(Tabla, cmbLigas, cmbJornada, fecha,usuario);
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         if(e.getSource() == this.VistaUsuario.iResultadosQuiniela)
         {
             this.VistaResultadosQuiniela.setVisible(true);
@@ -466,7 +517,82 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
         if(e.getSource() == this.VistaAdministrador.iBoletin)
         {
             this.VistaBoletin.setVisible(true);
-            this.VistaBoletin.setLocationRelativeTo(null);
+            this.VistaBoletin.setExtendedState(MAXIMIZED_BOTH);
+            DefaultTableModel TablaModelo2 = null;
+            try {
+                TablaModelo2= this.modeloBoletin.ListarBoletin(this.VistaBoletin.cmbLigas);
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            this.VistaBoletin.tblBoletin.setModel(TablaModelo2);
+            
+            this.modeloBoletin.ObtenerGanadores(this.VistaBoletin.lblPrimerLugar, this.VistaBoletin.lblSegundoLugar, this.VistaBoletin.lblTercerLugar, this.VistaBoletin.tblBoletin);
+            autoResizeColumns(this.VistaBoletin.tblBoletin);
+            this.VistaBoletin.btnGuardarPremios.addActionListener(this);
+        }
+        
+        if(e.getSource() == this.VistaBoletin.btnGuardarPremios)
+        {
+           ArrayList<String> premios = new ArrayList<>();
+           premios.add(this.VistaBoletin.txtPremio1.getText());
+           premios.add(this.VistaBoletin.txtPremio2.getText());
+           premios.add(this.VistaBoletin.txtPremio3.getText());
+           
+           ArrayList<String> ganadores = new ArrayList<>();
+           ganadores.add(this.VistaBoletin.lblPrimerLugar.getText());
+           ganadores.add(this.VistaBoletin.lblSegundoLugar.getText());
+           ganadores.add(this.VistaBoletin.lblTercerLugar.getText());
+            try {
+                this.modeloBoletin.EstablecerPremios(premios, ganadores);
+            } catch (IOException ex) {
+                Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(e.getSource() == this.VistaQuiniela.cmbJornada)
+        {
+           
+           DefaultTableModel TablaQuiniela = null;
+                try {
+                    TablaQuiniela = this.modeloQuiniela.ListarQuiniela(this.VistaQuiniela.cmbJornada, this.VistaQuiniela.cmbLiga);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            this.VistaQuiniela.Tabla.setModel(TablaQuiniela);
+            for(int i =3;i<=5;i++)
+            {
+                TamañoPequeño(VistaQuiniela.Tabla,i);
+            }
+            this.VistaQuiniela.Tabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleCellClick();
+            }
+        });
+            System.out.println("Hola mUndo");
+        }
+        
+        if(e.getSource() == this.VistaQuiniela.cmbLiga)
+        {
+            DefaultTableModel TablaQuiniela = null;
+                try {
+                    TablaQuiniela = this.modeloQuiniela.ListarQuiniela(this.VistaQuiniela.cmbJornada, this.VistaQuiniela.cmbLiga);
+                } catch (IOException ex) {
+                    Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            this.VistaQuiniela.Tabla.setModel(TablaQuiniela);
+            for(int i =3;i<=5;i++)
+            {
+                TamañoPequeño(VistaQuiniela.Tabla,i);
+            }
+            this.VistaQuiniela.Tabla.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleCellClick();
+            }
+        });
+            
+            System.out.println("Hola mUndo");
         }
     }
     
@@ -585,6 +711,25 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
     tabla.setModel(customModel);
      }
      
+     private void validarTexto(JTextField campos) {
+                NoAceptarNumeros(campos.getText(),campos);
+            }
+     
+     
+     private void NoAceptarNumeros(String valor,JTextField campos) {
+    if (valor.matches(".*\\d.*")) { // Verificar si el valor contiene algún dígito
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(null, "No pueden ingresarse números", "Error", JOptionPane.ERROR_MESSAGE);
+            campos.setText("");
+        });
+        
+    }
+    }
+    
+
+
+
+     
      private void checkFields() {
         // Verificar si todos los campos están llenos y habilitar el botón en consecuencia
         if (this.VistaCrearJornadas.jdcFecha.getDate() == null) {
@@ -600,6 +745,154 @@ public class Controlador implements ActionListener, MouseListener,PropertyChange
             checkFields();
         }
     }
+    
+    
+    public static void autoResizeColumns(JTable table) {
+        for (int column = 0; column < table.getColumnCount(); column++) {
+            TableColumn tableColumn = table.getColumnModel().getColumn(column);
+            int preferredWidth = 50; // Minimum width
+            int maxWidth = table.getColumnModel().getColumn(column).getMaxWidth();
 
+            // Consider the width of the column header
+            TableCellRenderer headerRenderer = table.getTableHeader().getDefaultRenderer();
+            Component headerComponent = headerRenderer.getTableCellRendererComponent(table, tableColumn.getHeaderValue(), false, false, -1, column);
+            preferredWidth = Math.max(preferredWidth, headerComponent.getPreferredSize().width);
+
+            // Consider the width of the column content
+            for (int row = 0; row < table.getRowCount(); row++) {
+                TableCellRenderer cellRenderer = table.getCellRenderer(row, column);
+                Component c = table.prepareRenderer(cellRenderer, row, column);
+                int width = c.getPreferredSize().width + table.getIntercellSpacing().width;
+                preferredWidth = Math.max(preferredWidth, width);
+
+                // Be reasonable about maximum width
+                if (preferredWidth >= maxWidth) {
+                    preferredWidth = maxWidth;
+                    break;
+                }
+            }
+
+            tableColumn.setPreferredWidth(preferredWidth);
+        }
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+        validarTexto(this.VistaRegistrar.txtApellidos);
+        validarTexto(this.VistaRegistrar.txtNombre);
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+        validarTexto(this.VistaRegistrar.txtApellidos);
+        validarTexto(this.VistaRegistrar.txtNombre);
+        validarTexto(this.VistaRegistrar.txtUsuario);
+    }
+    
+    
+ private final String pattern;
+    private final int maxLength;
+    private final String errorMessage;
+
+    public Controlador(String pattern, int maxLength, String errorMessage) {
+        this.pattern = pattern;
+        this.maxLength = maxLength;
+        this.errorMessage = errorMessage;
+    }
+
+    @Override
+    public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+        StringBuilder text = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
+        text.insert(offset, string);
+
+        if (isValidFormat(text.toString())) {
+            super.insertString(fb, offset, string, attr);
+        } else {
+            showError();
+        }
+    }
+
+    @Override
+    public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+        StringBuilder currentText = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
+        currentText.replace(offset, offset + length, text);
+
+        if (isValidFormat(currentText.toString())) {
+            super.replace(fb, offset, length, text, attrs);
+        } else {
+            showError();
+        }
+    }
+
+    @Override
+    public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
+        StringBuilder currentText = new StringBuilder(fb.getDocument().getText(0, fb.getDocument().getLength()));
+        currentText.delete(offset, offset + length);
+
+        if (isValidFormat(currentText.toString())) {
+            super.remove(fb, offset, length);
+        } else {
+            showError();
+        }
+    }
+
+    private boolean isValidFormat(String text) {
+        return text.matches(pattern) && text.length() <= maxLength;
+    }
+
+    private void showError() {
+        Toolkit.getDefaultToolkit().beep();
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE));
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+//        if (this.VistaPrincipal) {
+//            Main frame2 = new Main("Ventana 2", 2, false, false);
+//            frame2.setVisible(true);
+//        } else if (windowNumber == 3) {
+//            Main frame4 = new Main("Ventana 4", 4, false, false);
+//            frame4.setVisible(true);
+//        } else if (this.VistaRegistrar) {
+//            Main frameRegister = new Main("Vista Registrar", 5, false, false);
+//            frameRegister.setVisible(true);
+//        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+       
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+    }
+    
+    
 
 }

@@ -31,11 +31,12 @@ public class main {
         ModeloEquipos modeloEquipos = new ModeloEquipos(); 
         ModeloQuiniela modeloQuiniela = new ModeloQuiniela();
         ModeloJornada modeloJornada = new ModeloJornada();
+        ModeloBoletin modeloBoletin = new ModeloBoletin();
         GestorPass GestorCuentas = new GestorPass();
         Controlador controlador = new Controlador(VistaPrincipal,VistaCuentas,
         VistaRegistrar, VistaAdministrador, VistaCrearJornadas, VistaResultados,
         VistaJornadas,  VistaQuiniela, VistaUsuario, VistaResultadosQuiniela,VistaBoletin, modeloParticipantes, modeloEquipos, 
-        modeloQuiniela, modeloJornada,modeloResultados,GestorCuentas);
+        modeloQuiniela, modeloJornada,modeloResultados,modeloBoletin,GestorCuentas);
     }
     
 }

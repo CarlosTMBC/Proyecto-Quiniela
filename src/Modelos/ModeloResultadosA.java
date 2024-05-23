@@ -41,13 +41,13 @@ public class ModeloResultadosA {
             MyConexion = nuevaConexion.conectar();
             Statement sentencia = MyConexion.createStatement();
             result = sentencia.executeQuery("SELECT partidos.idPartido, Ligas.liga AS Liga_Local, " +
-            "EquiposLocal.nombre AS Equipo_Local, EquiposVisitante.nombre AS Equipo_Visitante, Jornadas.idJornada " +
+            "EquiposLocal.nombre AS Equipo_Local, EquiposVisitante.nombre AS Equipo_Visitante, Jornadas.nJornada " +
             ",partidos.GolesEquipoLocal, partidos.GolesEquipoVisitante FROM partidos " +
-            "INNER JOIN Jornadas ON partidos.idJornada = Jornadas.idJornada " +
+            "INNER JOIN Jornadas ON partidos.idJornada = Jornadas.nJornada " +
             "INNER JOIN Equipos AS EquiposLocal ON partidos.idEquipoLocal = EquiposLocal.idEquipo " +
             "INNER JOIN Equipos AS EquiposVisitante ON partidos.idEquipoVisitante = EquiposVisitante.idEquipo " +
             "INNER JOIN Ligas ON partidos.idLiga = Ligas.idLiga " +
-            "WHERE Jornadas.idJornada =" + JornadaSeleccionada + " AND Ligas.liga = '" + LigaSeleccionada + "';");
+            "WHERE Jornadas.nJornada =" + JornadaSeleccionada + " AND Ligas.liga = '" + LigaSeleccionada + "';");
             while(result.next()) {
                 TablaJornada.addRow(new Object[]{
                     result.getString("idPartido"),

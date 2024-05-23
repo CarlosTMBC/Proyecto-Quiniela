@@ -13,15 +13,22 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 public class frmAdministrador extends javax.swing.JFrame {
-
+ private static frmAdministrador adminVentana;
     /**
      * Creates new form frmVistaPrincipal
      */
     public frmAdministrador() {
         
         
-        initComponents();
+        initComponents();setLocationRelativeTo(null);  
        
+    }
+    
+     public static frmAdministrador getInstance() {
+        if (adminVentana == null) {
+            adminVentana = new frmAdministrador();
+        }
+        return adminVentana;
     }
 
     @SuppressWarnings("unchecked")

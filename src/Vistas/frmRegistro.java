@@ -22,12 +22,16 @@ import javax.swing.JFrame;
 public class frmRegistro extends javax.swing.JFrame {
 String nombre;//ACA SE ALMACENA NOMBRE DEL PARTICIPANTE
 String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
+
+private static frmRegistro registroVentana; 
+private static frmLogin VistaLogin;
     /**
      * Creates new form Participantes
      */
                                              
 
     public frmRegistro() {
+        //soy original xd
         initComponents();
         Icon iconoActivado = new ImageIcon("C:\\Users\\carlt\\Downloads\\Quiniela\\Quiniela\\src\\Imagenes\\ojo.png");
         Icon iconoDesactivado = new ImageIcon("C:\\Users\\carlt\\Downloads\\Quiniela\\Quiniela\\src\\Imagenes\\invisible.png");
@@ -47,7 +51,16 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
     
         });
     
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
+    }
+ 
+
+
+    public static frmRegistro getInstance() {
+        if (registroVentana == null) {
+            registroVentana = new frmRegistro();
+        }
+        return registroVentana;
     }
 
     /**
@@ -436,7 +449,16 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
     }//GEN-LAST:event_txtPassMouseClicked
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
+        
+        this.setVisible(false); // Oculta la ventana de login
+                if (VistaLogin == null) {
+             VistaLogin = frmLogin.getInstance();
+        }
+                else {
+                        VistaLogin.setVisible(true); // Muestra la ventana de registro
+                        System.out.println("se cerro algo ");
+                }
+                
     }//GEN-LAST:event_btnCancelarActionPerformed
 
                                                 
@@ -493,7 +515,7 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnCancelar;
     public javax.swing.JButton btnIngresar;
-    private javax.swing.JToggleButton btnOjo;
+    public javax.swing.JToggleButton btnOjo;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel5;
@@ -502,12 +524,12 @@ String apellido;//ACA SE ALMACENA APELLIDO DEL PARTICIPANTE
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txtApellidos;
-    private javax.swing.JTextField txtDPI;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JPasswordField txtPass;
-    private javax.swing.JTextField txtTelefono;
-    private javax.swing.JTextField txtUsuario;
+    public javax.swing.JTextField txtApellidos;
+    public javax.swing.JTextField txtDPI;
+    public javax.swing.JTextField txtNombre;
+    public javax.swing.JPasswordField txtPass;
+    public javax.swing.JTextField txtTelefono;
+    public javax.swing.JTextField txtUsuario;
     private javax.swing.JTextField txtUsuario3;
     private javax.swing.JTextField txtUsuario6;
     // End of variables declaration//GEN-END:variables

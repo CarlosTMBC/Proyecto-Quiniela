@@ -14,14 +14,26 @@ import javax.swing.table.DefaultTableModel;
  * @author danie
  */
 public class frmLogin extends javax.swing.JFrame {
-
+    private static frmLogin loginVentana;
+    private static frmRegistro registroVentana;
+    private static frmAdministrador adminVentana;
     /**
      * Creates new form frmLogin
      */
     public frmLogin() {
+        //soy el original xd 
         initComponents();
+        setLocationRelativeTo(null);
     }
-    
+    public static frmLogin getInstance() {
+        if (loginVentana == null) {
+            loginVentana = new frmLogin();
+        }
+        return loginVentana;
+    }
+     public void setAdminVentana(frmAdministrador adminVentana) {
+        this.adminVentana = adminVentana;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,7 +53,6 @@ public class frmLogin extends javax.swing.JFrame {
         btnIngresar1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnIngresar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
         txtPass = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
@@ -156,15 +167,8 @@ public class frmLogin extends javax.swing.JFrame {
         jPanel4.add(btnIngresar);
         btnIngresar.setBounds(610, 340, 90, 30);
 
-        jLabel2.setFont(new java.awt.Font("Baskerville Old Face", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel2.setText("¿Ha olvidado la contraseña?");
-        jPanel4.add(jLabel2);
-        jLabel2.setBounds(580, 380, 160, 20);
-
         txtUser.setBackground(new java.awt.Color(251, 252, 253));
         txtUser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtUser.setForeground(new java.awt.Color(204, 204, 204));
         txtUser.setToolTipText("");
         txtUser.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(127, 219, 228)));
         txtUser.setName(""); // NOI18N
@@ -184,7 +188,6 @@ public class frmLogin extends javax.swing.JFrame {
 
         txtPass.setBackground(new java.awt.Color(251, 252, 253));
         txtPass.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtPass.setForeground(new java.awt.Color(204, 204, 204));
         txtPass.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(127, 219, 228)));
         txtPass.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -247,7 +250,13 @@ public class frmLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar1ActionPerformed
-        
+        this.setVisible(false); // Oculta la ventana de login
+        if (adminVentana == null) {
+            adminVentana = frmAdministrador.getInstance();
+        }
+        else{
+        adminVentana.setVisible(true); // Muestra la ventana de administrador
+        }
     }//GEN-LAST:event_btnIngresar1ActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
@@ -265,7 +274,16 @@ public class frmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPassMouseClicked
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
-        
+    this.setVisible(false); // Oculta la ventana de login
+    if (registroVentana == null)
+    {
+        registroVentana = frmRegistro.getInstance();
+    }
+    else
+    {
+        registroVentana.setVisible(true); // Muestra la ventana de registro
+    }
+
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
@@ -313,7 +331,6 @@ public class frmLogin extends javax.swing.JFrame {
     public javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnIngresar1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

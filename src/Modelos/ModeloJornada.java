@@ -187,7 +187,7 @@ public void Partidos(JTable tabla, JComboBox<String> cmbLigas, JComboBox<String>
             }
         }
     catch(SQLException e){
-        JOptionPane.showMessageDialog(null, "No se Pudo Listar ...."+e.getMessage());
+        JOptionPane.showMessageDialog(null, "No se Pudo Listar la Liga ...."+e.getMessage());
     }
     return idLiga;
 }
@@ -266,8 +266,6 @@ public void ListarJorndadaDisponible( JComboBox<String> cmbJornadas, JComboBox<S
                     txtDate2.setDisabledTextColor(Color.BLACK);
                     
                 }
-                
-                
             }
         }
     catch(SQLException e)
